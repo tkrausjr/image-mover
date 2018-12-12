@@ -81,7 +81,7 @@ def get_registry_images(registry_proto, registry_host):
 
 def get_registry_manifests(registry_proto, registry_host, repos):
     registry_manifest_dict = {}
-    print("--Getting Source Registry Manifests")
+    print("--Getting Registry Manifests from " + registry_host)
     for i in repos:
         response = requests.get(registry_proto + registry_host + '/v2/' + i + '/tags/list', verify=False)
         responseJson = response.json()
@@ -276,55 +276,74 @@ if __name__ == "__main__":
 
     script_dir = os.getcwd()
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "s:m:d:h", ["source-registry=", "mode=", "destination-registry="])
+        opts, args = getopt.getopt(sys.argv[1:], "hsiupm:d:")
     except getopt.GetoptError as err:
         print(err)  # will print something like "option -a not recognized"
-        print('image-move.py -s <source-registry> -m <download/sync> -d <destination-registry> -l <user:password>')
+        print('image-move.py -s <source-registry> -m <download/sync> -d <destination-registry> -u <user> -p <password>')
+        print('image-move.py -i nginx:latest, golang,tomcat -m <download/sync> -d <destination-registry> -tu <user> -tp <password>')
         sys.exit(2)
     found_s = False
     found_m = False
     found_d = False
-    found_l = False
+    found_i = False
+    found_u = False
+    found_p = False
     for opt, arg in opts:
         if opt == '-h':
             print('image-move.py -s <source-registry> -m <download/sync> -d <destination-registry>')
             print('   <download/sync> choose \'download\' to just download docker images locally')
             print('   <download/sync> choose \'sync\' to fully synchronize Universe Docker Images targets.')
             sys.exit()
-        elif opt in ("-s", "--source-registry"):
+        elif opt in "-s":
             src_registry_host = arg
             found_s = True
-        elif opt in ("-m", "--mode"):
+        elif opt in "-i":
+            src_list = arg
+            found_i = True
+            print(" -i --list provided as an argument")
+            print(" -i value is = " + src_list)
+        elif opt in "-m":
             mode = arg
             found_m = True
         elif opt in ("-d", "--destination-registry"):
             dst_registry_host = arg
             found_d = True
-        elif opt in ("-l", "--login-destination-registry"):
-            destination_auth = arg
-            found_l = True
-
+        elif opt in ("-u", "--target_user"):
+            target_user = arg
+            found_u = True
+        elif opt in ("-p", "--target_password"):
+            target_password = arg
+            found_p = True
         else:
             assert False, "Unhandled option provided"
 
-    if not found_s or not found_m:
-        print("You must specify the -s for Source Registry and -m for execution mode and -d for destination registry")
-        print(found_s)
-        print(found_m)
-        print(found_d)
+    if not found_d or not found_m:
+        print("You must specify the -m for Sync Mode or -d for the destination")
         sys.exit(2)
+
+    if (found_s==False) & (found_i==False):
+        print("You must specify the -s for Source Registry or -l for the list of images")
+        sys.exit(2)
+
+    if found_u == True:
+        docker_login(dst_registry_proto, dst_registry_host,target_user, target_password)
+
+    if found_s == True:
+        print("Querying Source Registry Host = " + src_registry_host)
+        src_repos = get_registry_images(src_registry_proto, src_registry_host)
+        print("src_repos are " + str(src_repos))
+
+    elif found_i == True:
+        print("Parsing Image List provided as a flag")
+        src_repos = src_list
+        src_registry_host = "docker.io"
+        print("src_repos are " + str(src_repos))
 
     print('Source Registry =', src_registry_host)
     print('Execution Mode =', mode)
     print('Desination Registry =', dst_registry_host)
     print('*****************************************')
 
-    if found_l == True:
-        docker_login(dst_registry_proto, dst_registry_host)
-
-    # DOCKER REPO IMAGE MOVE from UNIVERSE IMAGE to DEST REGISTRY
-    print("Querying Source Registry Host = " + src_registry_host)
-    src_repos = get_registry_images(src_registry_proto, src_registry_host)
     src_manifests = get_registry_manifests(src_registry_proto, src_registry_host, src_repos)
 
     print("Querying Destination Registry Host = " + dst_registry_host)
@@ -352,7 +371,6 @@ if __name__ == "__main__":
     # Copy out the entire nginx / html directory to data directory where script is being run.
     '''updated_universe_json_file = copy_http_data(working_directory, universe_json_file)
     '''
-
 
 print("\n ********************* \n")
 print("\n Program Finished \n")
