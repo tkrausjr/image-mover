@@ -152,7 +152,6 @@ def make_repo_public(new_image, dst_registry_proto):
         print("  " + str(response.status_code) + " -- Quay API Call Success !!")
         return
 
-
 def copy_http_data(working_directory, universe_json_file):
     print("--Copying Universe HTTP to hosts Working Directory ")
     command = ['sudo', 'docker', 'cp', 'temp-universe-sync:/usr/share/nginx/html/', working_directory]
@@ -163,13 +162,11 @@ def copy_http_data(working_directory, universe_json_file):
     updated_universe_json_file = (working_directory + 'html/' + universe_json_file)
     return updated_universe_json_file  # Return updated reference to the now modified Universe.json file
 
-
 def transform_json(src_string, dst_string, json_file):
     print("transform_json function is changing <" + src_string + "> with <" + dst_string + ">.")
     for line in fileinput.input(json_file, inplace=True):
         # the comma after each print statement is needed to avoid double line breaks
         print(line.replace(src_string, dst_string), )
-
 
 def new_transform_json(src_string, dst_string, packages):
     for package in packages:
@@ -230,7 +227,6 @@ def newest_transform_json(old_new_image_dict, json_file):
     file_handle.write(file_string)
     file_handle.close()
 
-
 def return_http_artifacts(working_directory):
     http_artifacts = []
     os.chdir('{}{}/'.format(working_directory, 'html'))
@@ -243,7 +239,6 @@ def return_http_artifacts(working_directory):
                 print("Files are " + os.path.join(subdir, file))
                 http_artifacts.append(os.path.join(subdir, file))
     return http_artifacts
-
 
 def upload_http_nexus(dst_http_protocol, dst_http_host, dst_http_namespace, http_artifacts):
     baseurl = '{}{}/{}{}/'.format(dst_http_protocol, dst_http_host, dst_http_namespace, time.strftime("%Y-%m-%d"))
@@ -280,30 +275,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process Script flags')
     parser.add_argument('-s', '--source_registry',type=str, help='Enter Source Registry to migrate')
     parser.add_argument('-i', '--images',type=str, help='Comma Seperated list of images to migrate')
-    parser.add_argument('-m', '--mode', required=True,type=str, help='Mode an be Download or Sync')
-    parser.add_argument('-d', '--destination_registry', required=True,type=str, help='Enter Target or Destination Registry')
+    parser.add_argument('-m', '--mode', required=True,type=str, help='Mode. Download or Sync')
+    parser.add_argument('-d', '--destination_registry', required=True,type=str, help='Enter Target Registry')
     parser.add_argument('-u', '--target_registry_user',type=str, help='Enter Username for Destination Registry')
     parser.add_argument('-p', '--target_registry_password',type=str, help='Enter Password for Destination Registry')
     args = parser.parse_args()
     argsdict = vars(args)
-    print('image-move.py -s <source-registry> -m <download/sync> -d <destination-registry> -u <user> -p <password>')
-    print('image-move.py -i nginx:latest, golang,tomcat -m <download/sync> -d <destination-registry> -tu <user> -tp <password>')
 
-    ## DEBUG comment out
+    ## DEBUG comment out below 3 lines
+    '''
     for arg_name, value in argsdict.items():
         print("Argument Name : Value = " + str(arg_name) + " : " + str(value)  )
     print(argsdict['mode'])
-
+    ## DEBUG comment out above 3 lines
     '''
-    if not found_d or not found_m:
-        print("You must specify the -m for Sync Mode or -d for the destination")
-        sys.exit(2)
-
-    if (found_s==False) & (found_i==False):
-        print("You must specify the -s for Source Registry or -l for the list of images")
-        sys.exit(2)
-    '''
-
     if args.target_registry_user is not None:
         docker_login(dst_registry_proto, dst_registry_host, target_user, target_password)
 
@@ -311,15 +296,28 @@ if __name__ == "__main__":
         print("Querying Source Registry Host = " + str(args.source_registry))
         src_registry_host = str(args.source_registry)
         src_repos = get_registry_images(src_registry_proto, src_registry_host)
-        src_manifests = get_registry_manifests(src_registry_proto, src_registry_host, src_repos)
         print("src_repos are " + str(src_repos))
+        src_manifests = get_registry_manifests(src_registry_proto, src_registry_host, src_repos)
+
 
     elif args.images is not None:
-        print("Parsing Image List provided as a flag")
-        src_repos = args.images
+        print()
+        src_manifests = {}
         src_registry_host = "docker.io"
-        src_manifests = " "
-        print("src_repos are " + str(args.images))
+        src_repos = args.images.split(",")
+        print("Image List provided as a flag. Images = "  + str(src_repos))
+        for image in src_repos:
+            print(image)
+            if ':' in image:
+                newimage = image.split(":")[0]
+                tag = image.split(":")[1]
+                print("Tag exists, tag =  " + tag)
+            else:
+                newimage = image.split(":")[0]
+                tag = 'latest'
+                print("Tag not specified, setting to =  " + tag)
+
+            src_manifests[newimage] = tag
 
     print('\n *****************************************')
     print(" args Mode = " + args.mode)
@@ -334,6 +332,7 @@ if __name__ == "__main__":
     # input("DEBUG PAUSE - Press Enter to continue . . . ")
     try:
         image_list = []
+
         for image, imagetag in src_manifests.items():
             print('Starting on Image : Tag (' + image + ':' + imagetag + ")")
             fullImageId = src_registry_host + "/" + image + ":" + imagetag
