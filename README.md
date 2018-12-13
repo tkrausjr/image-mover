@@ -12,13 +12,17 @@ Only tested with Python 3.6.1
 ## Usage
 
 
+usage: image-mover.py [-h] [-s SOURCE_REGISTRY] [-i IMAGES] -m MODE -d
+                      DESTINATION_REGISTRY [-u TARGET_REGISTRY_USER]
+                      [-p TARGET_REGISTRY_PASSWORD]
+
 ## Examples
 
 Example 1 - Migrate ALL images from one Registry to another.
-    $ image-mover.py -s localhost:5000 -m sync -d localhost:5001
+    $ python3 image-mover.py -s localhost:5000 -m sync -d localhost:5001
 
 Example 2 - Migrate a list of images to the target registry to "library" project.
-    $image-mover.py -l nginx:latest,kafka:latest,tomcat -m sync -d harbor2.prod.domain.com/library
+    $ python3 image-mover.py -l nginx:latest,kafka:latest,tomcat -m sync -d harbor2.prod.domain.com/library
 
 
 
