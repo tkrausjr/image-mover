@@ -5,6 +5,7 @@ A simple application utility for Moving Docker Images or migrating entire Regist
 Run as a Docker Container or locally with Python already installed.
 
 ## Requirements
+If running locally as a script you will need Docker CLI installed.
 Network access to SRC and DST Docker Registries.
 Only tested with Python 3.6.1
 
