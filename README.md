@@ -1,5 +1,5 @@
 # image-mover
-A simple application utility for Moving Docker Images or migrating entire Registries
+A simple application utility for Migrating Docker Images between Registries or entire Registries to a new Registry. 
 
 ## Installation
 Run as a Docker Container or locally with Python already installed.
