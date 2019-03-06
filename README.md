@@ -24,7 +24,7 @@ $ python3 image-mover.py -s localhost:5000 -m sync -d localhost:5001
 ```
 Example 2 - Migrate a list of images to the target registry to "library" project.
 ```
-$ python3 image-mover.py -l nginx:latest,kafka:latest,tomcat -m sync -d harbor2.prod.domain.com/library
+$ python3 image-mover.py -i nginx:latest,kafka:latest,tomcat -m sync -d harbor2.prod.domain.com/library
 ```
 
 
