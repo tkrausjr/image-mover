@@ -21,9 +21,8 @@ remove_images = False  # Will remove local copies of images already transferred 
 src_registry_proto = 'http://'
 src_http_protocol = 'http://'
 src_insecure = True
-# Section below used for Destination Quay or Registry Server for Universe Docker Images
-dst_registry_proto = 'http://'
-dst_registry_namespace = 'image-mover/'  # Include Trailing Slash after namespace
+
+## dst_registry_namespace = 'image-mover/'  # Include Trailing Slash after namespace
 pulled_images = []
 
 # Update section below if a proxy exists between server where script is run and destination HTTP server
@@ -31,17 +30,6 @@ pulled_images = []
 http_proxy = ''
 https_proxy = http_proxy
 proxies = {"http": http_proxy, "https": https_proxy}
-
-# Section below used for Destination HTTP/FRS/Artifactory for Universe Artifacts
-dst_http_protocol = 'https://'
-dst_http_host = 'http-artifact-svr.domain.net'
-dst_http_namespace = 'maven/content/sites/GCP-SITE/DCOS-Universe/Prod/'
-dst_http_repository_user = 'xyzxyzxyz'
-dst_http_repository_pass = 'xyzxyzxyz'
-universe_json_file = 'repo-up-to-1.8.json'
-working_directory = '/tmp/'
-http_artifacts_scan_zip_dir = '/var/lib/a_ansible/'
-
 
 def start_universe(universe_image, command):
     print('--Starting Mesosphere/Universe Docker Image ' + universe_image)
@@ -51,15 +39,17 @@ def start_universe(universe_image, command):
     time.sleep(5)
 
 
-def docker_login(dst_registry_proto, dst_registry_host):
-    print('--Docker Logging in for Quay Server: ' + dst_registry_host)
-    command = ['sudo', 'docker', 'login', '{}{}'.format(dst_registry_proto, dst_registry_host)]
+def docker_login(dst_registry_proto, dst_registry_host, username, password):
+    print('--Docker Logging in for Server: ' + dst_registry_host)
+    command = ['sudo', 'docker', 'login','-u {}','-p {}','{}{}'.format(username,password,dst_registry_proto, dst_registry_host)]
     subprocess.check_call(command)
 
 
 def get_registry_images(registry_proto, registry_host):
     print("--Found Repositories on server")
     response = requests.get(registry_proto + registry_host + '/v2/_catalog', verify=False)
+    print(str(response.status_code) + " Registry API CAll unsuccessful to " + registry_host)
+    print("----Raw Docker Error Message is  " + response.text)
 
     if response.status_code != 200:
         print(str(response.status_code) + " Registry API CAll unsuccessful to " + registry_host)
@@ -277,6 +267,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--destination_registry', required=True,type=str, help='Enter Target Registry')
     parser.add_argument('-u', '--target_registry_user',type=str, help='Enter Username for Destination Registry')
     parser.add_argument('-p', '--target_registry_password',type=str, help='Enter Password for Destination Registry')
+    parser.add_argument('--secure',type=str, help='Use --secure for https connections')
     args = parser.parse_args()
     argsdict = vars(args)
 
@@ -287,6 +278,11 @@ if __name__ == "__main__":
     print(argsdict['mode'])
     ## DEBUG comment out above 3 lines
     '''
+    if args.secure is not None:
+        dst_registry_proto = 'https://'
+    else:
+        dst_registry_proto = 'http://'
+
     if args.target_registry_user is not None:
         docker_login(dst_registry_proto, args.destination_registry, args.target_registry_user, args.target_registry_password)
 
