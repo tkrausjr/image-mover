@@ -92,11 +92,11 @@ def pull_images(name):
 def new_format_image_name(dst_registry_host, dst_registry_namespace, image, imagetag):
     print("Src Imagename is " + image)
     if '/' in image:
-        newimage = '{}/{}{}:{}'.format(dst_registry_host, dst_registry_namespace, image.split("/")[1], imagetag)
+        newimage = '{}/{}/{}:{}'.format(dst_registry_host, dst_registry_namespace, image.split("/")[1], imagetag)
         print("Slash in image name, New image is " + newimage)
         return newimage
     else:
-        newimage = '{}/{}{}:{}'.format(dst_registry_host, dst_registry_namespace, image, imagetag)
+        newimage = '{}/{}/{}:{}'.format(dst_registry_host, dst_registry_namespace, image, imagetag)
         print("No slash in image so New image is " + image)
         return newimage
 
