@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cd69e164-051c-4a40-a335-8e220792bd29" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image-mover.py" afterPath="$PROJECT_DIR$/image-mover.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="image-mover.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image-mover.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="290" column="124" lean-forward="false" selection-start-line="290" selection-start-column="124" selection-end-line="290" selection-end-column="124" />
+            <state relative-caret-position="292">
+              <caret line="43" column="71" lean-forward="false" selection-start-line="43" selection-start-column="71" selection-end-line="43" selection-end-column="71" />
               <folding>
                 <element signature="e#25#40#0" expanded="true" />
               </folding>
@@ -54,10 +53,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="437" />
+    <option name="x" value="420" />
     <option name="y" value="23" />
-    <option name="width" value="1243" />
-    <option name="height" value="990" />
+    <option name="width" value="1273" />
+    <option name="height" value="974" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -145,13 +144,20 @@
       <option name="presentableId" value="Default" />
       <updated>1543605430744</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated Login Code and cleaned up functions">
+      <created>1551920850683</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1551920850683</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="437" y="23" width="1243" height="990" extended-state="0" />
-    <editor active="true" />
+    <frame x="420" y="23" width="1273" height="974" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21882543" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2136685" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -178,6 +184,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated Login Code and cleaned up functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Login Code and cleaned up functions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -246,8 +256,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image-mover.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="290" column="124" lean-forward="false" selection-start-line="290" selection-start-column="124" selection-end-line="290" selection-end-column="124" />
+        <state relative-caret-position="292">
+          <caret line="43" column="71" lean-forward="false" selection-start-line="43" selection-start-column="71" selection-end-line="43" selection-end-column="71" />
           <folding>
             <element signature="e#25#40#0" expanded="true" />
           </folding>
