@@ -256,7 +256,7 @@ if __name__ == "__main__":
     parser.add_argument('-u', '--target_registry_user',type=str, help='Enter Username for Destination Registry')
     parser.add_argument('-p', '--target_registry_password',type=str, help='Enter Password for Destination Registry')
     parser.add_argument('--secure', help='Use --secure for https connections',action="store_true")
-    parser.add_argument('--harbor', help='Use --harbor if Target Registry is Harbor', action="store_true")
+    # parser.add_argument('--harbor', help='Use --harbor if Target Registry is Harbor', action="store_true")
     args = parser.parse_args()
     argsdict = vars(args)
 
