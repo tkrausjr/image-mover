@@ -2,14 +2,12 @@ __author__ = 'tkraus-m'
 
 import argparse
 import requests
-import getopt, sys
+import sys
 import subprocess
 import time
 import json
 import os
 import fileinput
-import shlex
-import shutil
 import re
 
 # Set the Target for Docker Iamges. Valid options are 'quay' and 'docker_registry'
@@ -290,7 +288,7 @@ if __name__ == "__main__":
     ## DEBUG comment out above 3 lines
     '''
     if args.target_registry_user is not None:
-        docker_login(dst_registry_proto, dst_registry_host, target_user, target_password)
+        docker_login(dst_registry_proto, args.destination_registry, args.target_registry_user, args.target_registry_password)
 
     if args.source_registry is not None:
         print("Querying Source Registry Host = " + str(args.source_registry))
@@ -347,11 +345,6 @@ if __name__ == "__main__":
         print('MISSING Docker Images: {}'.format(image))
 
     print("\n \n New Images uploaded to " + args.destination_registry + " are " + str(image_list))
-    input("DEBUG PAUSE - Press Enter to continue . . . ")
-    # HTTP Artifacts
-    # Copy out the entire nginx / html directory to data directory where script is being run.
-    '''updated_universe_json_file = copy_http_data(working_directory, universe_json_file)
-    '''
 
 print("\n ********************* \n")
 print("\n Program Finished \n")
