@@ -17,7 +17,7 @@ usage: image-mover.py [-h] [-s SOURCE_REGISTRY] [-i IMAGES] -m MODE -d
                       [-u TARGET_REGISTRY_USER] [-p TARGET_REGISTRY_PASSWORD]
                       [--secure]
 
-image-mover.py: error: the following arguments are required: -m/--mode, -d/--destination_registry
+image-mover.py: the following arguments are required: -m/ --mode, -d/ --destination_registry
 ```
 ## Harbor
 
