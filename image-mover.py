@@ -243,7 +243,6 @@ def upload_http_nexus(dst_http_protocol, dst_http_host, dst_http_namespace, http
         return baseurl
 
 
-
 if __name__ == "__main__":
 
     script_dir = os.getcwd()
