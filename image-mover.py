@@ -102,7 +102,7 @@ def new_format_image_name(dst_registry_host, dst_registry_namespace, image, imag
 
 
 def tag_images(image, imagetag, fullImageId, dst_registry_host):
-    new_image_name = new_format_image_name(dst_registry_host, dst_registry_namespace, image, imagetag)
+    new_image_name = new_format_image_name(dst_registry_host, args.destination_namespace, image, imagetag)
     print("--Tagging temp Universe Image " + fullImageId + " for new Registry " + new_image_name)
     command = ['docker', 'tag', fullImageId, new_image_name]
     subprocess.check_call(command)
@@ -168,18 +168,6 @@ def new_transform_json(src_string, dst_string, packages):
                     print("\n New String Value = " + new_string)
                     package[key] = new_string
     return packages
-
-    '''
-    print("\n new_transform_json function is changing <"+ src_string + "> with <"+dst_string +">.")
-    if src_string in content:
-        print(" FOUND String, Changing "+ src_string +" to "+ dst_string +"\n")
-        content.replace(src_string, dst_string)
-        return content
-    else:
-        print("  --- *** ERROR *** --- "+ src_string + " not found in \n")
-        return content
-    '''
-
 
 def newer_transform_json(old_new_image_dict, json_file):
     # This not working either
@@ -265,9 +253,11 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--images',type=str, help='Comma Seperated list of images to migrate')
     parser.add_argument('-m', '--mode', required=True,type=str, help='Mode. Download or Sync')
     parser.add_argument('-d', '--destination_registry', required=True,type=str, help='Enter Target Registry')
+    parser.add_argument('-n', '--destination_namespace', type=str, help='Enter Target Project or Namespace')
     parser.add_argument('-u', '--target_registry_user',type=str, help='Enter Username for Destination Registry')
     parser.add_argument('-p', '--target_registry_password',type=str, help='Enter Password for Destination Registry')
     parser.add_argument('--secure', help='Use --secure for https connections',action="store_true")
+    parser.add_argument('--harbor', help='Use --harbor if Target Registry is Harbor', action="store_true")
     args = parser.parse_args()
     argsdict = vars(args)
 
@@ -320,10 +310,11 @@ if __name__ == "__main__":
     print(" args Destination Registry =" + str(args.destination_registry))
     print(' ***************************************** \n')
 
-    print("Querying Destination Registry Host = " + str(args.destination_registry))
-    dst_repos = get_registry_images(dst_registry_proto, args.destination_registry)
-    dst_manifests = get_registry_manifests(dst_registry_proto, args.destination_registry, dst_repos)
+    #print("Querying Destination Registry Host = " + str(args.destination_registry))
+    #dst_repos = get_registry_images(dst_registry_proto, args.destination_registry)
+    #dst_manifests = get_registry_manifests(dst_registry_proto, args.destination_registry, dst_repos)
     # input("DEBUG PAUSE - Press Enter to continue . . . ")
+
     try:
         image_list = []
 
