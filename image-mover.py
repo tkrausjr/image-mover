@@ -13,8 +13,6 @@ import re
 # Set the Target for Docker Iamges. Valid options are 'quay' and 'docker_registry'
 docker_target = 'docker_registry'
 # Set the Target for HTTP Artifacts including the actual Universe JSON definition itself
-# Valid options are 'nginx' and 'nexus'
-http_target = 'nexus'
 remove_images = False  # Will remove local copies of images already transferred to dst_registry_host
 
 # Section below used for Source & Destination Registries
