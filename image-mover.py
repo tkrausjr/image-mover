@@ -39,9 +39,9 @@ def start_universe(universe_image, command):
 
 def docker_login(dst_registry_proto, dst_registry_host, username, password):
     print('--Docker Logging in for Server: ' + dst_registry_host)
-    string_command = ['sudo docker login -u {0} -p {1} {2}{3}'.format(username,password,dst_registry_proto, dst_registry_host)]
-    print('String_Command ='+ str(string_command))
-    command = [string_command]
+    command = ['docker', 'login', '-u', username, '-p', password, dst_registry_proto + dst_registry_host]
+    print('Command ='+ str(command))
+    #command = [string_command]
     subprocess.check_call(command)
 
 
@@ -267,7 +267,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--destination_registry', required=True,type=str, help='Enter Target Registry')
     parser.add_argument('-u', '--target_registry_user',type=str, help='Enter Username for Destination Registry')
     parser.add_argument('-p', '--target_registry_password',type=str, help='Enter Password for Destination Registry')
-    parser.add_argument('--secure',type=str, help='Use --secure for https connections')
+    parser.add_argument('--secure', help='Use --secure for https connections',action="store_true")
     args = parser.parse_args()
     argsdict = vars(args)
 
@@ -278,7 +278,7 @@ if __name__ == "__main__":
     print(argsdict['mode'])
     ## DEBUG comment out above 3 lines
     '''
-    if args.secure is not None:
+    if args.secure:
         dst_registry_proto = 'https://'
     else:
         dst_registry_proto = 'http://'
