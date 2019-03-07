@@ -1,5 +1,9 @@
 # image-mover
-A simple application utility for Migrating Docker Images between Registries or entire Registries to a new Registry. 
+A simple application utility for quickly moving Docker Images between registries.  Use Cases include:
+
+1.  Migrating lists of Docker Images between Registries.
+2.  Populating a new Registry or Harbor instance quickly with Docker Images.
+3.  Replicating the contents of one registry to another registry.
 
 ## Installation
 Run as a Docker Container or locally with Python already installed.
