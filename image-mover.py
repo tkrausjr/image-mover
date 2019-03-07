@@ -41,7 +41,9 @@ def start_universe(universe_image, command):
 
 def docker_login(dst_registry_proto, dst_registry_host, username, password):
     print('--Docker Logging in for Server: ' + dst_registry_host)
-    command = ['sudo', 'docker', 'login','-u {}','-p {}','{}{}'.format(username,password,dst_registry_proto, dst_registry_host)]
+    string_command = ['sudo docker login -u {0} -p {1} {2}{3}'.format(username,password,dst_registry_proto, dst_registry_host)]
+    print('String_Command =' string_command)
+    command = [string_command]
     subprocess.check_call(command)
 
 
